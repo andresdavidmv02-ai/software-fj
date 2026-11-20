@@ -1,13 +1,25 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
+from excepciones import ParametroInvalidoError
 
 
 class Entidad(ABC):
-    def __init__(self, identificador):
-        if not identificador:
-            raise ValueError("El identificador es obligatorio")
+    """Clase abstracta que representa las entidades generales del sistema."""
 
-        self._identificador = str(identificador)
+    def __init__(self, identificador):
+        if identificador is None:
+            raise ParametroInvalidoError(
+                "El identificador es obligatorio"
+            )
+
+        identificador = str(identificador).strip()
+
+        if not identificador:
+            raise ParametroInvalidoError(
+                "El identificador no puede estar vacio"
+            )
+
+        self._identificador = identificador
         self._fecha_creacion = datetime.now()
 
     @property
@@ -20,4 +32,5 @@ class Entidad(ABC):
 
     @abstractmethod
     def mostrar_informacion(self):
+        """Metodo que cada clase derivada debe implementar."""
         pass
