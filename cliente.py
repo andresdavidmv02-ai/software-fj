@@ -1,10 +1,14 @@
 from entidad import Entidad
+from excepciones import ClienteInvalidoError
 import re
 
 
 class Cliente(Entidad):
     def __init__(self, identificacion, nombre, correo, telefono):
-        super().__init__(identificacion)
+        if identificacion is None or not str(identificacion).strip():
+            raise ClienteInvalidoError("La identificacion es obligatoria")
+
+        super().__init__(str(identificacion).strip())
 
         self.nombre = nombre
         self.correo = correo
@@ -17,7 +21,10 @@ class Cliente(Entidad):
     @nombre.setter
     def nombre(self, valor):
         if not isinstance(valor, str) or len(valor.strip()) < 3:
-            raise ValueError("El nombre debe tener al menos 3 caracteres")
+            raise ClienteInvalidoError(
+                "El nombre debe tener al menos 3 caracteres"
+            )
+
         self._nombre = valor.strip()
 
     @property
@@ -26,11 +33,19 @@ class Cliente(Entidad):
 
     @correo.setter
     def correo(self, valor):
-        if not isinstance(valor, str) or not re.match(
-            r"^[\w.+-]+@[\w-]+\.[\w.-]+$", valor
-        ):
-            raise ValueError("El correo electrónico no es válido")
-        self._correo = valor
+        if not isinstance(valor, str):
+            raise ClienteInvalidoError("El correo debe ser texto")
+
+        correo = valor.strip()
+
+        patron = r"^[\w.+-]+@[\w-]+(?:\.[\w-]+)+$"
+
+        if not re.fullmatch(patron, correo):
+            raise ClienteInvalidoError(
+                "El correo electronico no es valido"
+            )
+
+        self._correo = correo
 
     @property
     def telefono(self):
@@ -40,8 +55,10 @@ class Cliente(Entidad):
     def telefono(self, valor):
         telefono = str(valor).strip()
 
-        if not telefono.isdigit() or len(telefono) < 7:
-            raise ValueError("El teléfono no es válido")
+        if not telefono.isdigit() or not 7 <= len(telefono) <= 15:
+            raise ClienteInvalidoError(
+                "El telefono debe contener entre 7 y 15 digitos"
+            )
 
         self._telefono = telefono
 
@@ -50,5 +67,5 @@ class Cliente(Entidad):
             f"ID: {self.identificador} | "
             f"Nombre: {self.nombre} | "
             f"Correo: {self.correo} | "
-            f"Teléfono: {self.telefono}"
+            f"Telefono: {self.telefono}"
         )

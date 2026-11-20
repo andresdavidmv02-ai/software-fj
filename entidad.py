@@ -3,11 +3,13 @@ from datetime import datetime
 
 
 class Entidad(ABC):
+    """Clase abstracta común para las entidades de Software FJ."""
+
     def __init__(self, identificador):
-        if not identificador:
+        if identificador is None or not str(identificador).strip():
             raise ValueError("El identificador es obligatorio")
 
-        self._identificador = str(identificador)
+        self._identificador = str(identificador).strip()
         self._fecha_creacion = datetime.now()
 
     @property
@@ -20,4 +22,5 @@ class Entidad(ABC):
 
     @abstractmethod
     def mostrar_informacion(self):
-        pass
+        """Devuelve una descripción legible de la entidad."""
+        raise NotImplementedError
