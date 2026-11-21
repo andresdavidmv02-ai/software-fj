@@ -2,19 +2,20 @@
 
 
 class ErrorSistemaFJ(Exception):
-    """Excepción base: todas las demás heredan de ella."""
+    """Excepción base del sistema."""
+    # Todas las demás excepciones heredan de esta; así se capturan todas con un solo except.
 
 
 class ClienteInvalidoError(ErrorSistemaFJ):
-    """Datos del cliente inválidos (nombre, documento, correo...)."""
+    """Datos del cliente inválidos o identificador duplicado."""
 
 
 class ParametroInvalidoError(ErrorSistemaFJ):
-    """Parámetro inválido o faltante al crear/usar un servicio."""
+    """Parámetro inválido o faltante al crear o usar un servicio."""
 
 
 class ServicioNoDisponibleError(ErrorSistemaFJ):
-    """El servicio existe pero no se puede reservar ahora."""
+    """El servicio existe, pero no se puede reservar en este momento."""
 
 
 class ReservaInvalidaError(ErrorSistemaFJ):
@@ -22,8 +23,8 @@ class ReservaInvalidaError(ErrorSistemaFJ):
 
 
 class OperacionNoPermitidaError(ErrorSistemaFJ):
-    """Operación no válida para el estado actual (ej. cancelar dos veces)."""
+    """Operación no válida para el estado actual de una reserva."""
 
 
 class CalculoInconsistenteError(ErrorSistemaFJ):
-    """El cálculo de costos dio un resultado imposible (negativo o cero)."""
+    """El cálculo de costos produjo un resultado cero, negativo o inválido."""
