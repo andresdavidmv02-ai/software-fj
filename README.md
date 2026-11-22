@@ -1,6 +1,6 @@
 # Software FJ: gestión de clientes, servicios y reservas
 
-Proyecto de programación orientada a objetos en Python, sin base de datos.
+Proyecto de programación, prácticas simuladas.
 Curso Programación (213023) – Universidad Nacional Abierta y a Distancia (UNAD), Fase 4.
 
 ## Integrantes
